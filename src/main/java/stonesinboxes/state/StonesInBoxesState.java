@@ -112,7 +112,7 @@ public class StonesInBoxesState implements Cloneable{
      */
     public boolean isFinished(){
         for (Box box: tray){
-            if (box.equals(Box.EMPTY)){
+            if (box.equals(Box.EMPTY) || tray.equals( NEAR_GOAL)){
                 return true;
             }
         }
