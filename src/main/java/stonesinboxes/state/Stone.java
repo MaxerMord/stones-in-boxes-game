@@ -3,13 +3,13 @@ package stonesinboxes.state;
 /**
  * Enum representing the box is empty or not.
  */
-public enum Pick {
-    EMPTY(0),
-    STONE(1);
+public enum Stone {
+    EMPTY(1),
+    STONE(0);
 
     private int status;
 
-    private Pick(int status){
+    private Stone(int status){
         this.status = status;
     }
 
@@ -24,22 +24,22 @@ public enum Pick {
      * @param status status
      * @return the state changing of the picked box
      */
-    public static Pick of(int status){
-        for (Pick pick : values()){
-            if (pick.status == status){
-                return pick;
+    public static Stone of(int status){
+        for (Stone stone : values()){
+            if (stone.status == status){
+                return stone;
             }
         }
         throw new IllegalArgumentException();
     }
 
     /**
-     * Returns the
+     * Returns the box without stone
      * @return
      */
-    public Pick finalStatus(){
-        this.status = 0;
-        return STONE;
+    public Stone finalStatus(){
+        this.status = 1;
+        return EMPTY;
     }
 
 }

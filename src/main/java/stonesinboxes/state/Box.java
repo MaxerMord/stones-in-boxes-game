@@ -1,13 +1,17 @@
 package stonesinboxes.state;
 
-import org.hibernate.sql.Select;
-
 /**
  * Class representing the state of a box.
  */
 public enum  Box {
-    EMPTY,
-    STONE;
+    EMPTY(1),
+    STONE(0);
+
+    private int status;
+
+    private Box(int status){
+        this.status = status;
+    }
 
     /**
      * The array defining a box is empty or not.
@@ -38,18 +42,18 @@ public enum  Box {
     public int getValue(){return ordinal();}
 
     /**
-     * Choose the available box(es) and pick the stone(s) within.
+     * Choose the available box(es) with stone(s).
      *
-     * @param pick the box(es) which were chosen
+     * @param box the box(es) which were chosen
      * @return the box(es) chose by player and becomes empty
      * @throws UnsupportedOperationException if the method is invoked on the
      * {@link #EMPTY} instance
      */
-    public Box choose(Pick pick){
-        if (this == EMPTY) {
+    public Box choose(Box box){
+        if (this == Box.EMPTY) {
             throw new UnsupportedOperationException();
         }
-        return values()[B[ordinal()][pick.ordinal()]];
+        return values()[B[ordinal()][box.ordinal()]];
     }
 
 
