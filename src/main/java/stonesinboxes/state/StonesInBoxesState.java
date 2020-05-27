@@ -6,132 +6,140 @@ import lombok.Data;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.lang.reflect.Array;
+
 import java.util.Arrays;
 import java.util.Random;
 
 /**
- * State class
+ * State class and controll logic.
  */
 @Data
 @Slf4j
 public class StonesInBoxesState implements Cloneable{
-    /**
-     * Initial state, all boxes with a stone except 1 that choose randomly.
-     */
-    public static final int[] INITIAL = new int[15];
 
     /**
-     * Generates the random empty box while initializing.
+     * The array storing the current configuration of the tray.
      */
-    Random gen = new Random(INITIAL.length);
-    public int getStart(){
-        return INITIAL[gen.nextInt(INITIAL.length)] = 1;
-    }
+    @Setter(AccessLevel.NONE)
+    private int[] tray;
+
+
+
+    /**
+     * Initial state, all boxes with a stone in it.
+     */
+    public static int[] INITIAL = new int[15];
+
 
     /**
      * Near-goal state
      */
     public static final int[] NEAR_GOAL = new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 
+//    /**
+//     * SIB = stonesinboxes
+//     * @param t
+//     */
+//    public static SIB
+
     /**
-     * The array storing the current configuration of the tray.
+     * Generates the random empty box while initializing.
      */
-    @Setter(AccessLevel.NONE)
-    private Box[] tray;
+
+    private void setINITIAL(int[] t){
+        int[] start = INITIAL;
+        Random gen = new Random();
+        int rand = gen.nextInt(INITIAL.length);
+        start[rand] = 1;
+        tray = start;
+    }
 
     /**
      * Initializer
      */
     public StonesInBoxesState() {this(INITIAL);}
 
-    public StonesInBoxesState(int[] a){
-        if(!isValidTray(a)){
-            throw new IllegalArgumentException();
-        }
-        initTray(a);
-    }
-
-    private boolean isValidTray(int[] a){
-        if(a == null || a.length != 15){
-            return false;
-        }
-        boolean foundEmpty = false;
-        for (int i: INITIAL){
-            if(i == 1 || INITIAL.length != 15){
-                return false;
-            }
-            if (i ==1 || (i+1) == 1){
-                return false;
-            }
-            if (Box.STONE.getValue() == 1){
-                if (foundEmpty) {
-                    return false;
-                }
-                foundEmpty = true;
-            }
-        }
-        return foundEmpty;
+    public StonesInBoxesState(int[] initial) {
+        setINITIAL(initial);
     }
 
     /**
-     * Initializer that may not needed.
-     * @param a
+     * Player picks box(es),check if available and then take the stone(s) out.
+     * @param p position of the first box.
      */
-    private void initTray(int[] a) {
-        this.tray = new Box[15];
-        for (int i = 0; i < 15; i++){
-            if ((this.tray[i] = Box.of(a[i])) == Box.STONE){
-                this.tray[i] = Box.of(i);
-            }
+    public void  pickBox(int p){
+//        int[] temp = tray;
+//        temp[p] = 1;
+        if (tray[p-1] == 0){
+            tray[p-1] = 1;
+            log.info("Box {} is picked and remove the stone in it",p);
+        }else {
+            log.info("Box {} is empty, please pick an available box",p);
         }
     }
 
     /**
-     * Player pick a box and take out the stone in it.
-     * @param i the position of the chosen box
+     * Choose 2 boxes start from position p(for loop may needed to optimize).
+     * @param p the position of first(left side) box
      */
-    public void pickBox(int i){
-        Box box = Box.valueOf(String.valueOf(Box.STONE));
-        log.info("Box at ({}) is picked",i,box.choose(Box.STONE),Box.EMPTY);
-        tray[i] = Box.of(0);
-    }
-    /**
-     * Player pick 2 adjacent boxes and take out the stones in them.
-     * @param i the position of the chosen box
-     */
-    public void pick2Boxes(int i){
-        Box box = Box.valueOf(String.valueOf(Box.STONE));
-        log.info("Adjcent boxes from {} are picked",i,box.choose(Box.STONE),box.choose(Box.EMPTY));
-        tray[i] = Box.EMPTY;
-        tray[i+1] = Box.EMPTY;
-    }
-
-    /**
-     * Check wheter the game is finished, which all the boxes in the tray becomes empty(1).
-     */
-    public boolean isFinished(){
-        for (Box box: tray){
-            if (box.equals(Box.EMPTY) || tray.equals( NEAR_GOAL)){
-                return true;
-            }
+    public void  pick2Box(int p){
+        if (tray[p-1] == 0 && tray[p] ==0){
+            tray[p-1] = 1;
+            tray[p] =1;
+            log.info("Adjacent 2 Boxes {} {} are picked and remove the stones in them",
+                    p,p+1);
+        }else {
+            log.info("Adjacent two Boxes {} {} from box {} are unavailable," +
+                    " please",p,p+1,p);
         }
-        return false;
+
     }
 
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        for (Box box: tray){
-            sb.append(box).append(' ');
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.insert(0,"[");
+
+        for (int p : tray){
+            stringBuilder.append(p).append(' ');
         }
-        sb.append('\n');
-        return sb.toString();
+        stringBuilder.append("]");
+        return stringBuilder.toString();
+    }
+
+    public boolean isFinished(){
+        if (Arrays.equals(tray, NEAR_GOAL)) {return true;}
+        else {return false;}
     }
 
     public static void main(String[] args) {
         StonesInBoxesState state = new StonesInBoxesState();
+        System.out.println("Initial tray...");
         System.out.println(state);
-        state.getTray();
+        state.pickBox(2);
         System.out.println(state);
+        state.pick2Box(5);
+        System.out.println(state);
+        System.out.println(state.isFinished());
+
+        //testing isFinished method
+        state.pickBox(1);
+        state.pickBox(2);
+        state.pickBox(3);
+        state.pickBox(4);
+        state.pickBox(5);
+        state.pickBox(6);
+        state.pickBox(7);
+        state.pickBox(8);
+        state.pickBox(9);
+        state.pickBox(10);
+        state.pickBox(11);
+        state.pickBox(12);
+        state.pickBox(13);
+        state.pickBox(14);
+        state.pickBox(15);
+        System.out.println(state);
+        System.out.println(state.isFinished());
+
+
     }
 }
