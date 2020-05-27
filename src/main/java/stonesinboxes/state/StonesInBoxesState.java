@@ -20,15 +20,18 @@ public class StonesInBoxesState implements Cloneable{
     /**
      * The array storing the current configuration of the tray.
      */
-    @Setter(AccessLevel.NONE)
+
     private int[] tray;
 
+    /**
+     * 0 - box with stone, 1 - empty box.
+     */
 
 
     /**
      * Initial state, all boxes with a stone in it.
      */
-    public static int[] INITIAL = new int[15];
+    public static final int[] INITIAL = new int[15];
 
 
     /**
@@ -47,18 +50,23 @@ public class StonesInBoxesState implements Cloneable{
      */
 
     private void setINITIAL(int[] t){
-        int[] start = INITIAL;
+//        int[] start = t;
+        int[] start = t.clone();
         Random gen = new Random();
-        int rand = gen.nextInt(INITIAL.length);
+        int rand = gen.nextInt(start.length);
         start[rand] = 1;
         tray = start;
     }
 
     /**
-     * Initializer
+     * Constructor
      */
     public StonesInBoxesState() {this(INITIAL);}
 
+    /**
+     * Initializer
+     * @param initial initial array
+     */
     public StonesInBoxesState(int[] initial) {
         setINITIAL(initial);
     }
@@ -68,31 +76,31 @@ public class StonesInBoxesState implements Cloneable{
      * @param p position of the first box.
      */
     public void  pickBox(int p){
-//        int[] temp = tray;
-//        temp[p] = 1;
-        if (tray[p-1] == 0){
-            tray[p-1] = 1;
-            log.info("Box {} is picked and remove the stone in it",p);
-        }else {
-            log.info("Box {} is empty, please pick an available box",p);
-        }
+            if (tray[p-1] == 0 && (p >= 1 && p <= INITIAL.length)){
+                tray[p-1] = 1;
+                log.info("Box {} is picked and remove the stone in it",p);
+            }else {
+                log.info("Box {} is empty, please pick an available box, please pick again", p);
+                //throw new IllegalArgumentException();
+            }
     }
+
 
     /**
      * Choose 2 boxes start from position p(for loop may needed to optimize).
      * @param p the position of first(left side) box
      */
     public void  pick2Box(int p){
-        if (tray[p-1] == 0 && tray[p] ==0){
-            tray[p-1] = 1;
-            tray[p] =1;
-            log.info("Adjacent 2 Boxes {} {} are picked and remove the stones in them",
-                    p,p+1);
-        }else {
-            log.info("Adjacent two Boxes {} {} from box {} are unavailable," +
-                    " please",p,p+1,p);
-        }
-
+            if (tray[p - 1] == 0 && tray[p] == 0 && (p >= 1 && p <= INITIAL.length)) {
+                tray[p - 1] = 1;
+                tray[p] = 1;
+                log.info("Adjacent 2 Boxes {} {} are picked and remove the stones in them",
+                        p, p + 1);
+            } else {
+                log.info("Adjacent two Boxes {} {} from box {} are unavailable," +
+                        " please pick again", p, p + 1, p);
+                //throw new IllegalArgumentException();
+            }
     }
 
     public String toString(){
@@ -117,9 +125,16 @@ public class StonesInBoxesState implements Cloneable{
         System.out.println(state);
         state.pickBox(2);
         System.out.println(state);
+        state.pick2Box(4);
+        state.pick2Box(5);
+        state.pick2Box(6);
+
+        System.out.println(state);
         state.pick2Box(5);
         System.out.println(state);
         System.out.println(state.isFinished());
+        System.out.println(state.getTray());
+        System.out.println(state.getTray().getClass());
 
         //testing isFinished method
         state.pickBox(1);
@@ -136,9 +151,11 @@ public class StonesInBoxesState implements Cloneable{
         state.pickBox(12);
         state.pickBox(13);
         state.pickBox(14);
+        System.out.println(state);
         state.pickBox(15);
         System.out.println(state);
         System.out.println(state.isFinished());
+        state.pick2Box(65);
 
 
     }

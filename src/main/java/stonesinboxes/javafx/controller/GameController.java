@@ -60,7 +60,10 @@ public class GameController {
     private GridPane gameGrid;
 
     @FXML
-    private Label stepsLabel;
+    private Label steps1Label;
+
+    @FXML
+    private Label steps2Label;
 
     @FXML
     private Label stopWatchLabel;
@@ -89,15 +92,10 @@ public class GameController {
     public void initialize() {
         cubeImages = List.of(
                 new Image(getClass().getResource("/images/cube0.png").toExternalForm()),
-                new Image(getClass().getResource("/images/cube1.png").toExternalForm()),
-                new Image(getClass().getResource("/images/cube2.png").toExternalForm()),
-                new Image(getClass().getResource("/images/cube3.png").toExternalForm()),
-                new Image(getClass().getResource("/images/cube4.png").toExternalForm()),
-                new Image(getClass().getResource("/images/cube5.png").toExternalForm()),
                 new Image(getClass().getResource("/images/cube6.png").toExternalForm())
         );
-        stepsLabel.textProperty().bind(steps1.asString());
-        stepsLabel.textProperty().bind(steps2.asString());
+        steps1Label.textProperty().bind(steps1.asString());
+        steps2Label.textProperty().bind(steps2.asString());
         gameOver.addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 log.info("Game is over");
