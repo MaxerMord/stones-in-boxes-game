@@ -35,6 +35,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+
 @Slf4j
 public class GameController {
 
@@ -45,8 +46,10 @@ public class GameController {
     private GameResultDao gameResultDao;
 
     private String player1Name;
+//    private StonesInBoxesState gameState1;
     private IntegerProperty steps1 = new SimpleIntegerProperty();
     private String player2Name;
+//    private StonesInBoxesState gameState2;
     private IntegerProperty steps2 = new SimpleIntegerProperty();
 
     private StonesInBoxesState gameState;
@@ -64,6 +67,9 @@ public class GameController {
 
     @FXML
     private Label steps2Label;
+
+//    @FXML
+//    private Label steps1Labe;
 
     @FXML
     private Label stopWatchLabel;
@@ -116,7 +122,7 @@ public class GameController {
         displayGameState();
         createStopWatch();
         Platform.runLater(() -> messageLabel.setText("Good luck, " + player1Name +
-                player2Name + "!"));
+                ", " + player2Name + "!"));
     }
 
     /**

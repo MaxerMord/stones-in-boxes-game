@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- * State class and controll logic.
+ * State and logic class .
  */
 @Data
 @Slf4j
@@ -27,7 +27,6 @@ public class StonesInBoxesState implements Cloneable{
      * 0 - box with stone, 1 - empty box.
      */
 
-
     /**
      * Initial state, all boxes with a stone in it.
      */
@@ -39,11 +38,6 @@ public class StonesInBoxesState implements Cloneable{
      */
     public static final int[] NEAR_GOAL = new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 
-//    /**
-//     * SIB = stonesinboxes
-//     * @param t
-//     */
-//    public static SIB
 
     /**
      * Generates the random empty box while initializing.
@@ -72,8 +66,8 @@ public class StonesInBoxesState implements Cloneable{
     }
 
     /**
-     * Player picks box(es),check if available and then take the stone(s) out.
-     * @param p position of the first box.
+     * Player picks a box,check if available and then take the stone out.
+     * @param p position of the box.
      */
     public void  pickBox(int p){
             if (tray[p-1] == 0 && (p >= 1 && p <= INITIAL.length)){
@@ -87,7 +81,7 @@ public class StonesInBoxesState implements Cloneable{
 
 
     /**
-     * Choose 2 boxes start from position p(for loop may needed to optimize).
+     * Choose 2 available adjacent boxes start from position p(for loop may needed to optimize).
      * @param p the position of first(left side) box
      */
     public void  pick2Box(int p){
@@ -103,6 +97,10 @@ public class StonesInBoxesState implements Cloneable{
             }
     }
 
+    /**
+     * Override the toString method and returns the current tray.
+     * @return current tray (state array)
+     */
     public String toString(){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.insert(0,"[");
@@ -114,11 +112,19 @@ public class StonesInBoxesState implements Cloneable{
         return stringBuilder.toString();
     }
 
+    /**
+     * Check whether the game is finished, the array should be full of ones with length 15.
+     * @return array equals NEAR_GOAL
+     */
     public boolean isFinished(){
         if (Arrays.equals(tray, NEAR_GOAL)) {return true;}
         else {return false;}
     }
 
+    /**
+     * Testing all the methods in the class.
+     * @param args Argument, p = position of picked box
+     */
     public static void main(String[] args) {
         StonesInBoxesState state = new StonesInBoxesState();
         System.out.println("Initial tray...");

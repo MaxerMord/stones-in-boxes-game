@@ -35,7 +35,7 @@ public class StonesInBoxesApplication extends Application {
     public void start(Stage primaryStage) throws Exception{
         log.info("Starting application...");
         context.init();
-        fxmlLoader.setLocation(getClass().getResource("/fxml/lauch.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/fxml/launch.fxml"));
         Parent root = fxmlLoader.load();
         primaryStage.setTitle("Stones in Boxes");
         primaryStage.setResizable(false);
