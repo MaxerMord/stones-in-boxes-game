@@ -49,24 +49,24 @@
    <left>
       <GridPane fx:id="gameGrid" gridLinesVisible="true" maxHeight="200.0" maxWidth="400.0" BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="15.0" prefWidth="25.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="15.0" prefWidth="25.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="15.0" prefWidth="25.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="15.0" prefWidth="25.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="15.0" prefWidth="25.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="15.0" prefWidth="25.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="15.0" prefWidth="25.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="15.0" prefWidth="25.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="15.0" prefWidth="25.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="15.0" prefWidth="25.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="15.0" prefWidth="25.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="15.0" prefWidth="25.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="15.0" prefWidth="25.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="15.0" prefWidth="25.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="15.0" prefWidth="25.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
              <ImageView fitHeight="25.0" fitWidth="25.0" onMouseClicked="#handleClickOnBox" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" />

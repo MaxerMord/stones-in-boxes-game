@@ -40,10 +40,10 @@ public class HighScoreController {
     private TableView<GameResult> highScoreTable;
 
     @FXML
-    private TableColumn<GameResult, String> player1;
+    private TableColumn<GameResult, String> player;
 
     @FXML
-    private TableColumn<GameResult, Integer> steps1;
+    private TableColumn<GameResult, Integer> steps;
 
     @FXML
     private TableColumn<GameResult, String> player2;
@@ -65,10 +65,10 @@ public class HighScoreController {
         /**
          *
          */
-        player1.setCellValueFactory(new PropertyValueFactory<>("player1"));
-        steps1.setCellValueFactory(new PropertyValueFactory<>("steps1"));
-        player2.setCellValueFactory(new PropertyValueFactory<>("player2"));
-        steps2.setCellValueFactory(new PropertyValueFactory<>("steps2"));
+        player.setCellValueFactory(new PropertyValueFactory<>("player"));
+        steps.setCellValueFactory(new PropertyValueFactory<>("steps"));
+//        player2.setCellValueFactory(new PropertyValueFactory<>("player2"));
+//        steps2.setCellValueFactory(new PropertyValueFactory<>("steps2"));
 
         duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         created.setCellValueFactory(new PropertyValueFactory<>("created"));

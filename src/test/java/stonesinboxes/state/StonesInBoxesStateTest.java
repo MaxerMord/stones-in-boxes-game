@@ -9,30 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class StonesInBoxesStateTest {
 
-//    @Test
-//    void testSetInitial() {
-//        StonesInBoxesState stonesInBoxesState = new StonesInBoxesState();
-//        assertEquals(new StonesInBoxesState(new int[15])
-//                ,stonesInBoxesState);
-//    }
-
-    @Test
-    void testPickBox(){
-        StonesInBoxesState stonesInBoxesState = new StonesInBoxesState();
-        int[] test = new int[]{0,0,0,0,1,0,0,0,1,0,0,0,0,0,0};
-        stonesInBoxesState.setTray(test);
-        stonesInBoxesState.pickBox(5);
-        assertArrayEquals(new int[]{0,0,0,0,1,0,0,0,1,0,0,0,0,0,0},stonesInBoxesState.getTray());
-        stonesInBoxesState.pick2Box(4);
-        assertArrayEquals(new int[]{0,0,0,0,1,0,0,0,1,0,0,0,0,0,0},stonesInBoxesState.getTray());
-        stonesInBoxesState.pickBox(1);
-        assertArrayEquals(new int[]{1,0,0,0,1,0,0,0,1,0,0,0,0,0,0},stonesInBoxesState.getTray());
-        stonesInBoxesState.pick2Box(4);
-        assertArrayEquals(new int[]{1,0,0,0,1,0,0,0,1,0,0,0,0,0,0},stonesInBoxesState.getTray());
-        stonesInBoxesState.pick2Box(14);
-        assertArrayEquals(new int[]{1,0,0,0,1,0,0,0,1,0,0,0,0,1,1},stonesInBoxesState.getTray());
-    }
-
     @Test
     void testSetInitial(){
         StonesInBoxesState stonesInBoxesState = new StonesInBoxesState();
@@ -42,15 +18,31 @@ class StonesInBoxesStateTest {
     }
 
     @Test
-    void testOfInitialAndNearGoal() {
+    void testInitialAndNearGoal() {
         int[] a = new int[15];
         assertArrayEquals(a, StonesInBoxesState.INITIAL);
         assertEquals(int[].class, StonesInBoxesState.NEAR_GOAL.getClass());
         int[] b = new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
         assertArrayEquals(b,StonesInBoxesState.NEAR_GOAL);
 
-    }
+}
 
+    @Test
+    void testPickBox(){
+        StonesInBoxesState stonesInBoxesState = new StonesInBoxesState();
+        int[] test = new int[]{0,0,0,0,1,0,0,0,1,0,0,0,0,0,0};
+        stonesInBoxesState.setTray(test);
+        stonesInBoxesState.pickBox(4);
+        assertArrayEquals(new int[]{0,0,0,0,1,0,0,0,1,0,0,0,0,0,0},stonesInBoxesState.getTray());
+        stonesInBoxesState.pick2Box(3);
+        assertArrayEquals(new int[]{0,0,0,0,1,0,0,0,1,0,0,0,0,0,0},stonesInBoxesState.getTray());
+        stonesInBoxesState.pickBox(0);
+        assertArrayEquals(new int[]{1,0,0,0,1,0,0,0,1,0,0,0,0,0,0},stonesInBoxesState.getTray());
+        stonesInBoxesState.pick2Box(3);
+        assertArrayEquals(new int[]{1,0,0,0,1,0,0,0,1,0,0,0,0,0,0},stonesInBoxesState.getTray());
+        stonesInBoxesState.pick2Box(13);
+        assertArrayEquals(new int[]{1,0,0,0,1,0,0,0,1,0,0,0,0,1,1},stonesInBoxesState.getTray());
+    }
 
     @Test
     void testIsFinished() {

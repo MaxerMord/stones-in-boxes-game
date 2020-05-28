@@ -70,20 +70,20 @@ public class StonesInBoxesState implements Cloneable{
      * @param p position of the box.
      */
     public boolean canPick1(int p){
-        if (tray[p-1] == 0 && (p >= 1 && p <= INITIAL.length)) {
+        if (tray[p] == 0 && (p >= 0 && p < INITIAL.length)) {
             log.info("Box {} can be picked",p);
             return true;
         }else
-            log.info("Box {} unpickable", p);
+            log.info("Box {} is unavailable.", p);
             return false;
     }
 
     public void  pickBox(int p){
-            if (tray[p-1] == 0 && (p >= 1 && p <= INITIAL.length)){
-                tray[p-1] = 1;
+            if (tray[p] == 0 && (p >= 0 && p < INITIAL.length)){
+                tray[p] = 1;
                 log.info("Box {} is picked and remove the stone in it",p);
             }else {
-                log.info("Box {} is empty, please pick an available box, please pick again", p);
+                log.info("Box {} is empty, please pick an available box.", p);
                 //throw new IllegalArgumentException();
             }
     }
@@ -94,21 +94,21 @@ public class StonesInBoxesState implements Cloneable{
      * @param p the position of first(left side) box
      */
     public boolean canPick2(int p){
-        if (tray[p - 1] == 0 && tray[p] == 0 && (p >= 1 && p <= INITIAL.length)){
+        if (tray[p] == 0 && tray[p+1] == 0 && (p >= 0 && p < INITIAL.length)){
             log.info("Adjacent two boxes from {} can be picked",p);
             return true;
         }else
-            log.info("Boxes  from {} unpickable", p);
+            log.info("Adjacent two boxes from {} are unavailable.", p);
             return false;
 
     }
 
     public void  pick2Box(int p){
-            if (tray[p - 1] == 0 && tray[p] == 0 && (p >= 1 && p <= INITIAL.length)) {
-                tray[p - 1] = 1;
+            if (tray[p] == 0 && tray[p+1] == 0 && (p >= 0 && p < INITIAL.length)) {
                 tray[p] = 1;
-                log.info("Adjacent 2 Boxes {} {} are picked and remove the stones in them",
-                        p, p + 1);
+                tray[p+1] = 1;
+                log.info("Adjacent 2 Boxes {} {} from box {} are picked and remove the stones in them",
+                        p, p + 1, p);
             } else {
                 log.info("Adjacent two Boxes {} {} from box {} are unavailable," +
                         " please pick again", p, p + 1, p);
@@ -146,6 +146,8 @@ public class StonesInBoxesState implements Cloneable{
      */
     public static void main(String[] args) {
         StonesInBoxesState state = new StonesInBoxesState();
+
+        System.out.println(state.toString());
         System.out.println("Initial tray...");
         System.out.println(state);
         state.pickBox(2);
