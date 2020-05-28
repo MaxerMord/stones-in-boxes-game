@@ -54,7 +54,7 @@ public class GameController {
 
     private StonesInBoxesState gameState;
     private Instant startTime;
-    private List<Image> cubeImages;
+    private List<Image> boxImages;
 
     @FXML
     private Label messageLabel;
@@ -69,7 +69,7 @@ public class GameController {
     private Label steps2Label;
 
 //    @FXML
-//    private Label steps1Labe;
+//    private Label stepsLabel;
 
     @FXML
     private Label stopWatchLabel;
@@ -96,7 +96,7 @@ public class GameController {
      */
     @FXML
     public void initialize() {
-        cubeImages = List.of(
+        boxImages = List.of(
                 new Image(getClass().getResource("/images/cube0.png").toExternalForm()),
                 new Image(getClass().getResource("/images/cube6.png").toExternalForm())
         );
@@ -114,7 +114,7 @@ public class GameController {
     }
 
     private void resetGame() {
-        gameState = new StonesInBoxesState(StonesInBoxesState.NEAR_GOAL);
+        gameState = new StonesInBoxesState(StonesInBoxesState.INITIAL);
         steps1.set(0);
         steps2.set(0);
         startTime = Instant.now();
@@ -134,20 +134,18 @@ public class GameController {
                 if (view.getImage() != null) {
                     log.trace("Image({}) = {}", i, view.getImage().getUrl());
                 }
-                view.setImage(cubeImages.get(gameState.getTray()[i]));//----
+                view.setImage(boxImages.get(gameState.getTray()[i]));//----
 
         }
     }
 
 
-    public void handleClickOnCube(MouseEvent mouseEvent) throws Exception{
-        int i = GridPane.getRowIndex((Node) mouseEvent.getSource() );
-        //int col = GridPane.getColumnIndex((Node) mouseEvent.getSource());
-        log.debug("Box ({}) is pressed", i);
-        if (! gameState.isFinished() && player1Name.equalsIgnoreCase(player1Name)) {
+    public void handleClickOnBox(MouseEvent mouseEvent) {
+        int col = GridPane.getColumnIndex((Node) mouseEvent.getSource() );
+        log.debug("Box ({}) is pressed", col);
+        if (! gameState.isFinished() && gameState.canPick1(col) ) {
             steps1.set(steps1.get() + 1);
-            gameState.pickBox(i);
-            gameState.pick2Box(i);
+            gameState.pickBox(col);
             if (gameState.isFinished()) {
                 gameOver.setValue(true);
                 log.info("Player {} has solved the game in {} steps", player1Name,

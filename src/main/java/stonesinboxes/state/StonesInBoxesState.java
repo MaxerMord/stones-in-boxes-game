@@ -20,7 +20,7 @@ public class StonesInBoxesState implements Cloneable{
     /**
      * The array storing the current configuration of the tray.
      */
-
+//    @Setter(AccessLevel.NONE)
     private int[] tray;
 
     /**
@@ -69,6 +69,15 @@ public class StonesInBoxesState implements Cloneable{
      * Player picks a box,check if available and then take the stone out.
      * @param p position of the box.
      */
+    public boolean canPick1(int p){
+        if (tray[p-1] == 0 && (p >= 1 && p <= INITIAL.length)) {
+            log.info("Box {} can be picked",p);
+            return true;
+        }else
+            log.info("Box {} unpickable", p);
+            return false;
+    }
+
     public void  pickBox(int p){
             if (tray[p-1] == 0 && (p >= 1 && p <= INITIAL.length)){
                 tray[p-1] = 1;
@@ -84,6 +93,16 @@ public class StonesInBoxesState implements Cloneable{
      * Choose 2 available adjacent boxes start from position p(for loop may needed to optimize).
      * @param p the position of first(left side) box
      */
+    public boolean canPick2(int p){
+        if (tray[p - 1] == 0 && tray[p] == 0 && (p >= 1 && p <= INITIAL.length)){
+            log.info("Adjacent two boxes from {} can be picked",p);
+            return true;
+        }else
+            log.info("Boxes  from {} unpickable", p);
+            return false;
+
+    }
+
     public void  pick2Box(int p){
             if (tray[p - 1] == 0 && tray[p] == 0 && (p >= 1 && p <= INITIAL.length)) {
                 tray[p - 1] = 1;

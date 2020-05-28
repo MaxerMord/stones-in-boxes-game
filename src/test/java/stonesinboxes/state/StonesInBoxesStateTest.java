@@ -21,7 +21,6 @@ class StonesInBoxesStateTest {
         StonesInBoxesState stonesInBoxesState = new StonesInBoxesState();
         int[] test = new int[]{0,0,0,0,1,0,0,0,1,0,0,0,0,0,0};
         stonesInBoxesState.setTray(test);
-
         stonesInBoxesState.pickBox(5);
         assertArrayEquals(new int[]{0,0,0,0,1,0,0,0,1,0,0,0,0,0,0},stonesInBoxesState.getTray());
         stonesInBoxesState.pick2Box(4);
