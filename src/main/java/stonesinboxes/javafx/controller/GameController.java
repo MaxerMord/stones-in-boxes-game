@@ -152,21 +152,32 @@ public class GameController {
     public void handleClickOnBox(MouseEvent mouseEvent) {
         int col = GridPane.getColumnIndex((Node) mouseEvent.getSource());
         log.debug("Box ({}) is pressed", col);
-
-        if (count == 0) playerLabel.setText(player1Name);
-        else playerLabel.setText(player2Name);
-        if (count < 1) {
-            count++;
-        } else {
-            count = 0;
-        }
+        playerLabel.setText(player1Name);
 
         if (rb.isSelected() && !gameState.isFinished() && gameState.canPick2(col)) {
             gameState.pick2Box(col);
             steps.set(steps.get() + 1);
-        } else if (!gameState.isFinished() && gameState.canPick1(col)) {
+            if (count == 0) playerLabel.setText(player1Name);
+            else playerLabel.setText(player2Name);
+            if (count < 1) {
+                count = 1;
+            } else {
+                count = 0;
+            }
+
+        } else if (!gameState.isFinished() && rb.isSelected()) {
+            log.info("Adjacent two boxes from {} are unavailable, switch to pick 1 box or choose other.");
+        }
+        if (! rb.isSelected() && ! gameState.isFinished() && gameState.canPick1(col)){
             gameState.pickBox(col);
             steps.set(steps.get() + 1);
+            if (count == 0) playerLabel.setText(player1Name);
+            else playerLabel.setText(player2Name);
+            if (count < 1) {
+                count = 1;
+            } else {
+                count = 0;
+            }
         }
         if (gameState.isFinished()) {
             gameOver.setValue(true);

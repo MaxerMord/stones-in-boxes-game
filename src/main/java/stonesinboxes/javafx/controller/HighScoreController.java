@@ -60,7 +60,6 @@ public class HighScoreController {
         steps.setCellValueFactory(new PropertyValueFactory<>("steps"));
         duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         created.setCellValueFactory(new PropertyValueFactory<>("created"));
-
         duration.setCellFactory(column -> {
             TableCell<GameResult, Duration> cell = new TableCell<GameResult, Duration>() {
                 @Override

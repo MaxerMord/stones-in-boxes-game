@@ -42,6 +42,9 @@ class StonesInBoxesStateTest {
         assertArrayEquals(new int[]{1,0,0,0,1,0,0,0,1,0,0,0,0,0,0},stonesInBoxesState.getTray());
         stonesInBoxesState.pick2Box(13);
         assertArrayEquals(new int[]{1,0,0,0,1,0,0,0,1,0,0,0,0,1,1},stonesInBoxesState.getTray());
+        int[] test1 = new int[]{0,0,0,0,1,0,0,0,1,0,0,0,0,0,1};
+        assertFalse(new StonesInBoxesState(new int[]{0,0,0,0,1,0,0,0,1,0,0,0,0,0,1}).canPick2(13));
+        assertFalse(new StonesInBoxesState(new int[]{0,0,0,0,1,0,0,0,1,0,0,0,0,0,1}).canPick2(14));
     }
 
     @Test

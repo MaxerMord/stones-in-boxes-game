@@ -22,7 +22,7 @@ public class StonesInBoxesApplication extends Application {
             new AbstractModule() {
             @Override
             protected void configure(){
-                install(new PersistenceModule("st"));
+                install(new PersistenceModule("stones-in-boxes"));
                 bind(GameResultDao.class);
             }
             }

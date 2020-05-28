@@ -33,6 +33,7 @@ public class LaunchController {
             errorLabel.setText("Enter players' names");
             }else {
             fxmlLoader.setLocation(getClass().getResource("/fxml/game.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("/fxml/game.fxml"));
             Parent root = fxmlLoader.load();
             fxmlLoader.<GameController>getController().setPlayer1Name(player1NameTextField.getText());
             fxmlLoader.<GameController>getController().setPlayer2Name(player2NameTextField.getText());
