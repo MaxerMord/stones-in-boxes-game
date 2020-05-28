@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -46,15 +47,15 @@ public class GameController {
     private GameResultDao gameResultDao;
 
     private String player1Name;
-//    private StonesInBoxesState gameState1;
-    private IntegerProperty steps1 = new SimpleIntegerProperty();
     private String player2Name;
-//    private StonesInBoxesState gameState2;
-    private IntegerProperty steps2 = new SimpleIntegerProperty();
 
     private StonesInBoxesState gameState;
+    private IntegerProperty steps = new SimpleIntegerProperty();
     private Instant startTime;
     private List<Image> boxImages;
+
+    @FXML
+    private RadioButton rb;
 
     @FXML
     private Label messageLabel;
@@ -63,13 +64,8 @@ public class GameController {
     private GridPane gameGrid;
 
     @FXML
-    private Label steps1Label;
+    private Label stepsLabel;
 
-    @FXML
-    private Label steps2Label;
-
-//    @FXML
-//    private Label stepsLabel;
 
     @FXML
     private Label stopWatchLabel;
@@ -77,22 +73,32 @@ public class GameController {
     private Timeline stopWatchTimeline;
 
     @FXML
+    private Label playerLabel;
+
+    @FXML
     private Button resetButton;
 
     @FXML
     private Button giveUpButton;
 
+
     private BooleanProperty gameOver = new SimpleBooleanProperty();
 
+    /**
+     * Setters
+     */
     public void setPlayer1Name(String player1Name) {
         this.player1Name = player1Name;
     }
+
     public void setPlayer2Name(String player2Name) {
         this.player2Name = player2Name;
     }
 
+    private int count = 0;
+
     /**
-     * ==============
+     * Game initializer.
      */
     @FXML
     public void initialize() {
@@ -100,8 +106,7 @@ public class GameController {
                 new Image(getClass().getResource("/images/cube0.png").toExternalForm()),
                 new Image(getClass().getResource("/images/cube6.png").toExternalForm())
         );
-        steps1Label.textProperty().bind(steps1.asString());
-        steps2Label.textProperty().bind(steps2.asString());
+        stepsLabel.textProperty().bind(steps.asString());
         gameOver.addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 log.info("Game is over");
@@ -115,8 +120,7 @@ public class GameController {
 
     private void resetGame() {
         gameState = new StonesInBoxesState(StonesInBoxesState.INITIAL);
-        steps1.set(0);
-        steps2.set(0);
+        steps.set(0);
         startTime = Instant.now();
         gameOver.setValue(false);
         displayGameState();
@@ -130,35 +134,63 @@ public class GameController {
      */
     private void displayGameState() {
         for (int i = 0; i < 15; i++) {
-                ImageView view = (ImageView) gameGrid.getChildren().get(i);
-                if (view.getImage() != null) {
-                    log.trace("Image({}) = {}", i, view.getImage().getUrl());
-                }
-                view.setImage(boxImages.get(gameState.getTray()[i]));//----
+            ImageView view = (ImageView) gameGrid.getChildren().get(i);
+            if (view.getImage() != null) {
+                log.trace("Image({}) = {}", i, view.getImage().getUrl());
+            }
+            view.setImage(boxImages.get(gameState.getTray()[i]));
 
         }
     }
 
-
+    /**
+     * Event handler while clicking on box. Player1 can click if count = 0, Player2 can click
+     * if count = 1.
+     *
+     * @param mouseEvent click
+     */
     public void handleClickOnBox(MouseEvent mouseEvent) {
-        int col = GridPane.getColumnIndex((Node) mouseEvent.getSource() );
+        int col = GridPane.getColumnIndex((Node) mouseEvent.getSource());
         log.debug("Box ({}) is pressed", col);
-        if (! gameState.isFinished() && gameState.canPick1(col) ) {
-            steps1.set(steps1.get() + 1);
-            gameState.pickBox(col);
-            if (gameState.isFinished()) {
-                gameOver.setValue(true);
-                log.info("Player {} has solved the game in {} steps", player1Name,
-                        steps1.get());
-                messageLabel.setText("Congratulations, " + player1Name + "!");
-                resetButton.setDisable(true);
-                giveUpButton.setText("Finish");
-            }
+
+        if (count == 0) playerLabel.setText(player1Name);
+        else playerLabel.setText(player2Name);
+        if (count < 1) {
+            count++;
+        } else {
+            count = 0;
         }
+
+        if (rb.isSelected() && !gameState.isFinished() && gameState.canPick2(col)) {
+            gameState.pick2Box(col);
+            steps.set(steps.get() + 1);
+        } else if (!gameState.isFinished() && gameState.canPick1(col)) {
+            gameState.pickBox(col);
+            steps.set(steps.get() + 1);
+        }
+        if (gameState.isFinished()) {
+            gameOver.setValue(true);
+            if (count == 0) {
+                log.info("Player {} has won the game in {} steps", player1Name,
+                        steps.get());
+                messageLabel.setText("Congratulations, " + player1Name + "!");
+            } else {
+                log.info("Player {} has won the game in {} steps", player2Name,
+                        steps.get());
+                messageLabel.setText("Congratulations, " + player1Name + "!");
+            }
+
+            gameGrid.setDisable(true);
+            resetButton.setDisable(true);
+            playerLabel.setText("");
+            giveUpButton.setText("Finish");
+        }
+
+//        countLable.setText(Integer.toString(count));
         displayGameState();
     }
 
-    public void handleResetButton(ActionEvent actionEvent)  {
+    public void handleResetButton(ActionEvent actionEvent) {
         log.debug("{} is pressed", ((Button) actionEvent.getSource()).getText());
         log.info("Resetting game...");
         stopWatchTimeline.stop();
@@ -181,15 +213,22 @@ public class GameController {
     }
 
     private GameResult createGameResult() {
-        GameResult result = GameResult.builder()
-                .player1(player1Name)
-                .winner(gameState.isFinished())
-                .steps1(steps1.get())
-                .player2(player2Name)
-                .winner(gameState.isFinished())
-                .steps2(steps2.get())
-                .duration(Duration.between(startTime, Instant.now()))
-                .build();
+        GameResult result = null;
+        if (count == 0) {
+            result = GameResult.builder()
+                    .player(player1Name)
+                    .solved(gameState.isFinished())
+                    .duration(Duration.between(startTime, Instant.now()))
+                    .steps(steps.get())
+                    .build();
+        } else {
+            result = GameResult.builder()
+                    .player(player2Name)
+                    .solved(gameState.isFinished())
+                    .duration(Duration.between(startTime, Instant.now()))
+                    .steps(steps.get())
+                    .build();
+        }
         return result;
     }
 

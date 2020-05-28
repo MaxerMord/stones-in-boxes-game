@@ -24,33 +24,20 @@ public class GameResult {
     private Long id;
 
     /**
-     * The name of the player1.
+     * The name of the player.
      */
     @Column(nullable = false)
-    private String player1;
-
-
+    private String player;
 
     /**
-     * The number of steps made by the player1.
+     * Indicates whether the player has solved the puzzle.
      */
-    private int steps1;
-
-    /**
-     * The name of the player2.
-     */
-    @Column(nullable = false)
-    private String player2;
+    private boolean solved;
 
     /**
      * The number of steps made by the player.
      */
-    private int steps2;
-
-    /**
-     * Indicates whether the player won the game.
-     */
-    private boolean winner;
+    private int steps;
 
     /**
      * The duration of the game.

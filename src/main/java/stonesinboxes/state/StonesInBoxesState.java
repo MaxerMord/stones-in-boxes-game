@@ -70,7 +70,7 @@ public class StonesInBoxesState implements Cloneable{
      * @param p position of the box.
      */
     public boolean canPick1(int p){
-        if (tray[p] == 0 && (p >= 0 && p < INITIAL.length)) {
+        if (tray[p] == 0 && (p >= 0 && p <= INITIAL.length)) {
             log.info("Box {} can be picked",p);
             return true;
         }else
@@ -79,7 +79,7 @@ public class StonesInBoxesState implements Cloneable{
     }
 
     public void  pickBox(int p){
-            if (tray[p] == 0 && (p >= 0 && p < INITIAL.length)){
+            if (tray[p] == 0 && (p >= 0 && p <= INITIAL.length)){
                 tray[p] = 1;
                 log.info("Box {} is picked and remove the stone in it",p);
             }else {
@@ -94,7 +94,7 @@ public class StonesInBoxesState implements Cloneable{
      * @param p the position of first(left side) box
      */
     public boolean canPick2(int p){
-        if (tray[p] == 0 && tray[p+1] == 0 && (p >= 0 && p < INITIAL.length)){
+        if (tray[p] == 0 && tray[p+1] == 0 && (p >= 0 && p < (INITIAL.length-1))){
             log.info("Adjacent two boxes from {} can be picked",p);
             return true;
         }else
@@ -104,7 +104,7 @@ public class StonesInBoxesState implements Cloneable{
     }
 
     public void  pick2Box(int p){
-            if (tray[p] == 0 && tray[p+1] == 0 && (p >= 0 && p < INITIAL.length)) {
+            if (tray[p] == 0 && tray[p+1] == 0 && (p >= 0 && p < (INITIAL.length-1))) {
                 tray[p] = 1;
                 tray[p+1] = 1;
                 log.info("Adjacent 2 Boxes {} {} from box {} are picked and remove the stones in them",

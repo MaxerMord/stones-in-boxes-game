@@ -46,12 +46,6 @@ public class HighScoreController {
     private TableColumn<GameResult, Integer> steps;
 
     @FXML
-    private TableColumn<GameResult, String> player2;
-
-    @FXML
-    private TableColumn<GameResult, Integer> steps2;
-
-    @FXML
     private TableColumn<GameResult, Duration> duration;
 
     @FXML
@@ -62,14 +56,8 @@ public class HighScoreController {
         log.debug("Loading high scores...");
         List<GameResult> highScoreList = gameResultDao.findBest(10);
 
-        /**
-         *
-         */
         player.setCellValueFactory(new PropertyValueFactory<>("player"));
         steps.setCellValueFactory(new PropertyValueFactory<>("steps"));
-//        player2.setCellValueFactory(new PropertyValueFactory<>("player2"));
-//        steps2.setCellValueFactory(new PropertyValueFactory<>("steps2"));
-
         duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         created.setCellValueFactory(new PropertyValueFactory<>("created"));
 
@@ -81,8 +69,7 @@ public class HighScoreController {
                     if(empty) {
                         setText(null);
                     } else {
-                        setText(DurationFormatUtils.formatDuration(item.toMillis(),
-                                "H:mm:ss"));
+                        setText(DurationFormatUtils.formatDuration(item.toMillis(),"H:mm:ss"));
                     }
                 }
             };
