@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 
+
 import java.util.Arrays;
 import java.util.Random;
 
@@ -43,7 +44,7 @@ public class StonesInBoxesState implements Cloneable{
      * Generates the random empty box while initializing.
      */
 
-    private void setINITIAL(int[] t){
+    private void setINITIAL(int [] t){
 //        int[] start = t;
         int[] start = t.clone();
         Random gen = new Random();

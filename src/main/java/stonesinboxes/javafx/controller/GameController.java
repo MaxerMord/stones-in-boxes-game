@@ -30,6 +30,7 @@ import stonesinboxes.results.GameResultDao;
 import stonesinboxes.state.StonesInBoxesState;
 
 import javax.inject.Inject;
+import javax.persistence.Column;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
@@ -46,7 +47,9 @@ public class GameController {
     @Inject
     private GameResultDao gameResultDao;
 
+    @Column(nullable = false)
     private String player1Name;
+    @Column(nullable = false)
     private String player2Name;
 
     private StonesInBoxesState gameState;
@@ -87,6 +90,7 @@ public class GameController {
     /**
      * Setters
      */
+
     public void setPlayer1Name(String player1Name) {
         this.player1Name = player1Name;
     }
@@ -95,7 +99,7 @@ public class GameController {
         this.player2Name = player2Name;
     }
 
-    private int count = 0;
+    private int count = 1;
 
     /**
      * Game initializer.
@@ -111,7 +115,11 @@ public class GameController {
             if (newValue) {
                 log.info("Game is over");
                 log.debug("Saving result to database...");
-                gameResultDao.persist(createGameResult());
+                try {
+                    gameResultDao.persist(createGameResult());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 stopWatchTimeline.stop();
             }
         });
@@ -157,10 +165,10 @@ public class GameController {
         if (rb.isSelected() && !gameState.isFinished() && gameState.canPick2(col)) {
             gameState.pick2Box(col);
             steps.set(steps.get() + 1);
-            if (count == 0) playerLabel.setText(player1Name);
+            if (count == 1) playerLabel.setText(player1Name);
             else playerLabel.setText(player2Name);
-            if (count < 1) {
-                count = 1;
+            if (count < 2) {
+                count ++;
             } else {
                 count = 0;
             }
@@ -171,10 +179,10 @@ public class GameController {
         if (! rb.isSelected() && ! gameState.isFinished() && gameState.canPick1(col)){
             gameState.pickBox(col);
             steps.set(steps.get() + 1);
-            if (count == 0) playerLabel.setText(player1Name);
+            if (count == 1) playerLabel.setText(player1Name);
             else playerLabel.setText(player2Name);
-            if (count < 1) {
-                count = 1;
+            if (count < 2) {
+                count ++;
             } else {
                 count = 0;
             }
@@ -223,9 +231,9 @@ public class GameController {
         stage.show();
     }
 
-    private GameResult createGameResult() {
+    private GameResult createGameResult() throws Exception{
         GameResult result = null;
-        if (count == 0) {
+        if (count == 1) {
             result = GameResult.builder()
                     .player(player1Name)
                     .solved(gameState.isFinished())

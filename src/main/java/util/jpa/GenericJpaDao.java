@@ -3,6 +3,7 @@ package util.jpa;
 import com.google.inject.persist.Transactional;
 
 import javax.inject.Inject;
+import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
